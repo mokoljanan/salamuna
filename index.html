@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload and Save File</title>
+</head>
+<body>
+  <h2>Click to Upload a File and Save It</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="saveFile()">Save File to Disk</button>
+
+  <script>
+    function saveFile() {
+      const input = document.getElementById('fileInput');
+      if (!input.files.length) {
+        alert("Please select a file first.");
+        return;
+      }
+
+      const file = input.files[0];
+
+      // Read the file content
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const blob = new Blob([e.target.result], { type: file.type });
+
+        // Trigger download
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = file.name;
+        link.click();
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+  </script>
+</body>
+</html>
